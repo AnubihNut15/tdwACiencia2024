@@ -55,6 +55,14 @@ final class PersonRelationsController extends ElementRelationsBaseController
     public function getEntities(Request $request, Response $response, array $args): Response
     {
         // @TODO
+        $person = $this->entityManager
+            ->getRepository(PersonQueryController::getEntityClassName())
+            ->find($args[PersonQueryController::getEntityIdName()]);
+
+        $entities = $person?->getEntities() ?? [];
+
+        return $this->getElements($response, $person, EntityQueryController::getEntitiesTag(), $entities);
+
     }
 
     /**
@@ -71,6 +79,12 @@ final class PersonRelationsController extends ElementRelationsBaseController
     public function operationEntity(Request $request, Response $response, array $args): Response
     {
         // @TODO
+        return $this->operationRelatedElements(
+            $request,
+            $response,
+            $args,
+            EntityQueryController::getEntityClassName()
+        );
     }
 
     /**
@@ -85,6 +99,14 @@ final class PersonRelationsController extends ElementRelationsBaseController
     public function getProducts(Request $request, Response $response, array $args): Response
     {
         // @TODO
+        $person = $this->entityManager
+            ->getRepository(PersonQueryController::getEntityClassName())
+            ->find($args[PersonQueryController::getEntityIdName()]);
+
+        $products = $person?->getPersons() ?? [];
+
+        return $this->getElements($response, $person, ProductQueryController::getEntitiesTag(), $products);
+
     }
 
     /**
@@ -101,5 +123,11 @@ final class PersonRelationsController extends ElementRelationsBaseController
     public function operationProduct(Request $request, Response $response, array $args): Response
     {
         // @TODO
+        return $this->operationRelatedElements(
+            $request,
+            $response,
+            $args,
+            ProductQueryController::getEntityClassName()
+        );
     }
 }

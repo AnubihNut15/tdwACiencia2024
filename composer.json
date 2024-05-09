@@ -71,10 +71,14 @@
             "TDW\\ACiencia\\Utility\\Install::postInstall"
         ],
         "start": "php -S 127.0.0.1:8000 -t public",
-        "test": "php -dxdebug.mode=coverage bin/phpunit --color=always",
         "infection": "bin/infection --ansi --coverage=\"var/coverage\" --threads=20 --only-covered",
         "metrics": "bin/phpmetrics --junit=\"var/coverage/index.junit.xml\" --report-html=\"docs/PhpMetrics_report\" ./src",
-        "phpstan": "bin/phpstan --ansi"
+        "phpstan": "bin/phpstan --ansi",
+        "test": [
+            "php -dxdebug.mode=coverage bin/phpunit --color=always",
+            "Composer\\Config::disableProcessTimeout",
+            "phpunit"
+        ]
     },
     "scripts-descriptions": {
         "start": "Run with built-in web server at http://127.0.0.1:8000/.",
